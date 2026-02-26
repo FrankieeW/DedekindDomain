@@ -38,6 +38,14 @@ An integral domain $R$ is Dedekind if:
 \lean{../../DedekindDomain/Lecture10.lean}
 \enddefinition
 
+\begindefinition{Maximal ideal}{def-maximal-ideal}
+An ideal $I \subsetneq R$ is maximal if whenever
+$I \subseteq J \subseteq R$, then $J = I$ or $J = R$.
+Equivalently, $I$ is maximal iff $R/I$ is a field.
+\uses{def-dedekind-domain}
+\lean{../../DedekindDomain/Lecture10.lean}
+\enddefinition
+
 \begindefinition{Noetherian ring conditions}{def-noetherian-conditions}
 Equivalent conditions:
 (1) ACC on ideals; (2) every nonempty set of ideals has a maximal element;
@@ -46,6 +54,40 @@ Equivalent conditions:
 \enddefinition
 
 \section{Lecture 10 Results}
+
+\begintheorem{Imaginary quadratic Euclidean classification (L10.4)}{thm-imaginary-euclidean}
+For squarefree $d<0$, the following are equivalent:
+\[
+\mathcal O_d \text{ is norm Euclidean}
+\Longleftrightarrow
+\mathcal O_d \text{ is Euclidean}
+\Longleftrightarrow
+d \in \{-1,-2,-3,-7,-11\}.
+\]
+\uses{def-euclidean-function}
+\uses{def-norm-euclidean}
+\lean{../../DedekindDomain/Lecture10.lean}
+\endtheorem
+
+\begintheorem{Non-Euclidean PID examples (L10.5)}{thm-pid-not-euclidean-examples}
+The rings
+\[
+\mathcal O_{-19},\ \mathcal O_{-43},\ \mathcal O_{-67},\ \mathcal O_{-163}
+\]
+are PIDs (hence examples showing PID $\centernot\Rightarrow$ Euclidean in general).
+\lean{../../DedekindDomain/Lecture10.lean}
+\endtheorem
+
+\begintheorem{Real quadratic norm Euclidean classification (L10.6)}{thm-real-norm-euclidean}
+For squarefree $d>0$,
+\[
+\mathcal O_d \text{ is norm Euclidean}
+\iff
+d \in \{2,3,5,6,7,11,13,17,19,21,29,33,37,41,57,73\}.
+\]
+\uses{def-norm-euclidean}
+\lean{../../DedekindDomain/Lecture10.lean}
+\endtheorem
 
 \beginlemma{Norm Euclidean criterion (L10.3)}{lem-norm-euclidean-criterion}
 For number field $K$, $\mathcal{O}_K$ is norm Euclidean iff
