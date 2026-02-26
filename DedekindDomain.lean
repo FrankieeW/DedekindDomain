@@ -1,3 +1,4 @@
 import DedekindDomain.Basic
+import DedekindDomain.IntegerRing
 import DedekindDomain.Lecture10
 import DedekindDomain.Lecture11
