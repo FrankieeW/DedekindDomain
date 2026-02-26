@@ -1,0 +1,156 @@
+\documentclass{article}
+\usepackage[showmore, dep_graph]{blueprint}
+
+\title{DedekindDomain Blueprint}
+\author{Formalization plan for George Boxer Notes (Lectures 10--11)}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Scope}
+This blueprint covers only Lecture 10 and Lecture 11 of
+\emph{George Boxer Notes - NO SOLUTIONS.pdf}:
+Euclidean domains (context), Dedekind domains, and unique factorization of nonzero ideals.
+
+\section{Definitions}
+\definitions
+
+\begindefinition{Euclidean function}{def-euclidean-function}
+Let $R$ be an integral domain. A map $f : R \to \mathbf{N}$ is Euclidean if for all
+$a,b \in R$ with $b \neq 0$, there exist $q,r \in R$ such that
+$a=bq+r$ and either $r=0$ or $f(r)<f(b)$.
+\lean{../../DedekindDomain/Lecture10.lean}
+\enddefinition
+
+\begindefinition{Norm Euclidean integer ring}{def-norm-euclidean}
+For a number field $K$, the integer ring $\mathcal{O}_K$ is norm Euclidean if $|\mathrm{N}_K|$
+is a Euclidean function on $\mathcal{O}_K$.
+\uses{def-euclidean-function}
+\lean{../../DedekindDomain/Lecture10.lean}
+\enddefinition
+
+\begindefinition{Dedekind domain}{def-dedekind-domain}
+An integral domain $R$ is Dedekind if:
+(1) $R$ is integrally closed;
+(2) every nonzero prime ideal is maximal;
+(3) $R$ is Noetherian.
+\lean{../../DedekindDomain/Lecture10.lean}
+\enddefinition
+
+\begindefinition{Noetherian ring conditions}{def-noetherian-conditions}
+Equivalent conditions:
+(1) ACC on ideals; (2) every nonempty set of ideals has a maximal element;
+(3) every ideal is finitely generated.
+\lean{../../DedekindDomain/Lecture10.lean}
+\enddefinition
+
+\section{Lecture 10 Results}
+
+\beginlemma{Norm Euclidean criterion (L10.3)}{lem-norm-euclidean-criterion}
+For number field $K$, $\mathcal{O}_K$ is norm Euclidean iff
+for every $\alpha\in K$ there exists $\beta\in \mathcal{O}_K$
+with $|\mathrm{N}_K(\alpha-\beta)|<1$.
+\uses{def-norm-euclidean}
+\lean{../../DedekindDomain/Lecture10.lean}
+\endlemma
+
+\beginlemma{Finite index of nonzero ideals in $\mathcal{O}_K$ (L10.11)}{lem-ideal-finite-index}
+If $I\subseteq \mathcal{O}_K$ is nonzero, then $[\mathcal{O}_K : I] < \infty$.
+\uses{def-noetherian-conditions}
+\lean{../../DedekindDomain/Lecture10.lean}
+\tangled
+\endlemma
+
+\beginproposition{$\mathcal{O}_K$ is Dedekind (L10.10)}{prop-ok-dedekind}
+For any number field $K$, $\mathcal{O}_K$ is a Dedekind domain.
+\uses{def-dedekind-domain}
+\uses{lem-ideal-finite-index}
+\lean{../../DedekindDomain/Lecture10.lean}
+\tangled
+\endproposition
+
+\beginproposition{PID implies Dedekind (L10.12)}{prop-pid-dedekind}
+Every PID is a Dedekind domain.
+\uses{def-dedekind-domain}
+\lean{../../DedekindDomain/Lecture10.lean}
+\endproposition
+
+\section{Lecture 11 Results}
+
+\beginlemma{Cayley-Hamilton trick on ideals (L11.3)}{lem-fractional-stabilizer}
+If $I\subseteq R$ is an ideal and $x\in \mathrm{Frac}(R)$ satisfies $xI\subseteq I$,
+then $x\in R$.
+\uses{def-dedekind-domain}
+\lean{../../DedekindDomain/Lecture11.lean}
+\tangled
+\endlemma
+
+\beginlemma{Product of prime ideals inside a nonzero ideal (L11.4)}{lem-prime-product-contained}
+For every nonzero ideal $I\subseteq R$, there exist nonzero prime ideals
+$\mathfrak p_1,\dots,\mathfrak p_r$ such that
+$\mathfrak p_1\cdots\mathfrak p_r\subseteq I$.
+\uses{def-noetherian-conditions}
+\lean{../../DedekindDomain/Lecture11.lean}
+\tangled
+\endlemma
+
+\beginlemma{Prime ideal test for products of ideals (L11.5)}{lem-prime-ideal-product}
+If $\mathfrak p$ is prime and $IJ\subseteq \mathfrak p$, then
+$I\subseteq \mathfrak p$ or $J\subseteq \mathfrak p$.
+\lean{../../DedekindDomain/Lecture11.lean}
+\endlemma
+
+\beginlemma{Existence of non-integral multiplier (L11.6)}{lem-nonintegral-multiplier}
+If $I\subsetneq R$ is nonzero, then there exists $x\in \mathrm{Frac}(R)\setminus R$
+such that $xI\subseteq R$.
+\uses{lem-prime-product-contained}
+\uses{lem-prime-ideal-product}
+\uses{def-dedekind-domain}
+\lean{../../DedekindDomain/Lecture11.lean}
+\tangled
+\endlemma
+
+\beginproposition{Invertibility of nonzero ideals (L11.9)}{prop-ideal-invertible}
+For nonzero ideal $I\subseteq R$ and $0\neq a\in I$, there exists ideal $J\subseteq R$
+with $IJ=(a)$.
+\uses{lem-fractional-stabilizer}
+\uses{lem-nonintegral-multiplier}
+\lean{../../DedekindDomain/Lecture11.lean}
+\tangled
+\endproposition
+
+\begincorollary{Cancellation of nonzero ideals (L11.10)}{cor-cancellation}
+If $I,J,K\subseteq R$ are nonzero ideals and $IJ=IK$, then $J=K$.
+\uses{prop-ideal-invertible}
+\lean{../../DedekindDomain/Lecture11.lean}
+\endcorollary
+
+\begincorollary{Containment equals divisibility (L11.11)}{cor-contain-divide}
+For nonzero ideals $I,J\subseteq R$:
+$I\subseteq J$ iff there exists ideal $K$ with $I=JK$.
+\uses{prop-ideal-invertible}
+\uses{cor-cancellation}
+\lean{../../DedekindDomain/Lecture11.lean}
+\endcorollary
+
+\begintheorem{Unique factorization of nonzero ideals (L11.1)}{thm-ideal-factorization}
+If $R$ is Dedekind and $I\subseteq R$ is nonzero, then
+$I=\mathfrak p_1\cdots\mathfrak p_r$ for prime ideals, uniquely up to reordering.
+\uses{def-dedekind-domain}
+\uses{lem-prime-ideal-product}
+\uses{cor-cancellation}
+\uses{cor-contain-divide}
+\lean{../../DedekindDomain/Lecture11.lean}
+\tangled
+\endtheorem
+
+\section{Milestones}
+\beginitemize
+\item M1 (foundation): complete all definitions in Lecture 10 and ring-theoretic setup.
+\item M2 (number field instance): prove $\mathcal{O}_K$ is Dedekind.
+\item M3 (abstract engine): complete L11.3--L11.9.
+\item M4 (main theorem): complete L11.1 and refactor dependencies.
+\enditemize
+
+\end{document}
