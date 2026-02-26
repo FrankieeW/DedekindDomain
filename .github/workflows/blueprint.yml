@@ -55,10 +55,24 @@ jobs:
           source .venv/bin/activate
           leanblueprint web
 
+      - name: Resolve deploy directory
+        id: resolve_site
+        run: |
+          set -euo pipefail
+          if [ -d blueprint/web ] && [ "$(find blueprint/web -type f | wc -l)" -gt 0 ]; then
+            echo "site_dir=blueprint/web" >> "$GITHUB_OUTPUT"
+          elif [ -d blueprint/src/web ] && [ "$(find blueprint/src/web -type f | wc -l)" -gt 0 ]; then
+            echo "site_dir=blueprint/src/web" >> "$GITHUB_OUTPUT"
+          else
+            echo "No non-empty blueprint site directory found."
+            find blueprint -maxdepth 4 -type f | sed -n '1,200p'
+            exit 1
+          fi
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: blueprint/web
+          path: ${{ steps.resolve_site.outputs.site_dir }}
 
   deploy:
     needs: build
